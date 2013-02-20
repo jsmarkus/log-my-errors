@@ -10,18 +10,18 @@ Messages are displayed in web-interface like this:
 Installation
 ------------
 
-To install LME, clone the repo, go to folder and type:
+To install LME, type:
 
-    npm install
+    npm -g install log-my-errors
 
-This will install npm dependencies.
+>>>Note: on Mac of Linux you may also use `sudo` if your `node` is installed system-wide.
 
 Run
 ---
 
-To run LME, go to folder and type:
+To run LME, type:
 
-    npm start
+    lme
 
 This will start backend server.
 
