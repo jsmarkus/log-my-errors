@@ -1,0 +1,42 @@
+extends layout
+
+block content
+    title(data-bind="text:pageTitle")
+
+    .btn-toolbar
+        button.btn(data-bind="click:onClearClick")
+            | Clear
+        button.btn(data-bind="click:onGetCodeClick")
+            | Get code
+        button.pull-right.btn.btn-small(data-bind="click:onEnableNotificationsClick, visible:!notificationsEnabled()")
+            | Enable notifications
+
+    table.table.table-bordered.table-hover
+        tbody(data-bind="foreach:logItems")
+            tr(data-bind="click:$root.onRowClick, css:{'info':$root.currentItem() === $data}")
+                td
+                    span.label(data-bind="text:type, css:{'label-success':isLog, 'label-warning':isWarning, 'label-info':isNotice()||isStrict(), 'label-important':isError}")
+                td
+                    strong(data-bind="text:message")
+                    | &nbsp;
+
+                    span.muted(data-bind="text:file")
+                    | :
+                    span.muted(data-bind="text:line")
+            tr(data-bind="if:$root.currentItem() === $data, visible:$root.currentItem() === $data")
+                td(colspan="2")
+                    pre(data-bind="visible:trace, text:trace")
+                    .muted(data-bind="visible:!trace()") No trace
+
+    .modal-backdrop(data-bind="click:onCloseCodeClick, css:{hide:!codeShown()}")
+    .modal(data-bind="css:{hide:!codeShown()}")
+        .modal-header
+            button.close(data-bind="click:onCloseCodeClick") &times;
+            h3 PHP code
+        .modal-body
+            pre(data-bind="text:phpCode")
+
+
+
+    script(src="/socket.io/socket.io.js")
+    script(src="browserify.js")
