@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "express": "3.0.0",
-    "jade": "*",
-    "browserify": "*",
-    "knockoutify": "*",
-    "socket.io": "*"
+    "jade": "0.27.7",
+    "browserify": "1.16.4",
+    "knockoutify": "2.2.0",
+    "socket.io": "0.9.11"
   }
 }
