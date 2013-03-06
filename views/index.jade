@@ -34,6 +34,7 @@ block content
                     span.muted(data-bind="text:line")
             tr(data-bind="if:$root.currentItem() === $data, visible:$root.currentItem() === $data")
                 td(colspan="2")
+                    pre(data-bind="visible:body, text:body")
                     pre(data-bind="visible:trace, text:trace")
                     .muted(data-bind="visible:!trace()") No trace
 

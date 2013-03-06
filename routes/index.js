@@ -16,6 +16,7 @@ exports.log = function(req, res) {
         , file    : req.param('file')
         , line    : req.param('line')
         , trace   : req.param('trace')
+        , body    : req.param('body')
         , context : req.param('context')
     };
     res.json(true, 200);

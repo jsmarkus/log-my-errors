@@ -8,6 +8,7 @@ module.exports = class LogItem
 		@file    = ko.observable()
 		@line    = ko.observable()
 		@trace   = ko.observable()
+		@body    = ko.observable()
 		@context = ko.observable()
 
 		@isLog = ko.computed =>

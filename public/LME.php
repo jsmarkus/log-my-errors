@@ -9,7 +9,7 @@ class LME {
 
     }
 
-    static function friendlyErrorType($type)
+    protected static function friendlyErrorType($type)
     {
         switch($type)
             {
@@ -47,7 +47,7 @@ class LME {
         return $type;
     }
 
-    static function post($data)
+    protected static function post($data)
     {
         $url = LME_BACKEND.'/api/v1/log';
         $fields = http_build_query($data, '', '&');
@@ -62,7 +62,7 @@ class LME {
         curl_exec($ch);
     }
 
-    static function safeToString($item) {
+    protected static function safeToString($item) {
         if(
             ( !is_array( $item ) ) &&
             ( ( !is_object( $item ) && settype( $item, 'string' ) !== false ) ||
@@ -82,6 +82,26 @@ class LME {
         return '...';
     }
 
+    protected static function getBacktrace($ignore = 2)
+    {
+        $trace = '';
+        foreach (debug_backtrace() as $k => $v) {
+            if ($k < $ignore) {
+                continue;
+            }
+
+            array_walk($v['args'], array('LME', 'safeToString'));
+
+            $trace .= '#' . ($k - $ignore) . ' ' . $v['file'] .
+                '(' . $v['line'] . '): ' .
+                (isset($v['class']) ? $v['class'] . '->' : '') .
+                $v['function'] .
+                '(' .implode(', ', $v['args']) . ')' . "\n";
+        }
+
+        return $trace;
+    }
+
     static function log($value)
     {
         $info = array(
@@ -90,8 +110,8 @@ class LME {
                 'code'=>null,
                 'file'=>null,
                 'line'=>null,
-                'trace'=>var_export($value, true),
-                // 'context'=>var_export($errcontext, true),
+                'body'=>var_export($value, true),
+                'trace'=>self::getBacktrace()
             );
         self::post($info);
     }
@@ -103,7 +123,7 @@ class LME {
                 'code'=>$errno,
                 'file'=>$errfile,
                 'line'=>$errline,
-                'trace'=>NULL,
+                'trace'=>self::getBacktrace(),
                 // 'context'=>var_export($errcontext, true),
             );
         self::post($info);
