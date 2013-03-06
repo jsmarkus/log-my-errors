@@ -1,18 +1,27 @@
 extends layout
 
 block content
+
+    script#filter-template(type="text/html")
+        include templates/filter
+
     title(data-bind="text:pageTitle")
 
     .btn-toolbar
         button.btn(data-bind="click:onClearClick")
             | Clear
-        button.btn(data-bind="click:onGetCodeClick")
+        .btn-group
+            .span1
+        | <!-- ko template:{name:'filter-template', data:log.filter} -->
+        | <!-- /ko -->
+        button.pull-right.btn(data-bind="click:onGetCodeClick")
+            i.icon.icon-list-alt
+            | &nbsp;
             | Get code
-        button.pull-right.btn.btn-small(data-bind="click:onEnableNotificationsClick, visible:!notificationsEnabled()")
-            | Enable notifications
+
 
     table.table.table-bordered.table-hover
-        tbody(data-bind="foreach:logItems")
+        tbody(data-bind="foreach:log.filteredItems")
             tr(data-bind="click:$root.onRowClick, css:{'info':$root.currentItem() === $data}")
                 td
                     span.label(data-bind="text:type, css:{'label-success':isLog, 'label-warning':isWarning, 'label-info':isNotice()||isStrict(), 'label-important':isError}")

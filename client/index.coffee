@@ -1,30 +1,29 @@
 ko = require 'knockoutify'
 LogItem = require './LogItem'
-notify = require './notify'
+Filter = require './Filter'
+Log = require './Log'
 require './visibility'
 
 vm =
-	logItems : ko.observableArray []
+	log : new Log(new Filter)
 
 	currentItem : ko.observable()
 
 	unreadItemsCount : ko.observable(0)
-
-	notificationsEnabled : ko.computed
-		deferEvaluation : true
-		read : => notify.isEnabled()
 
 	pageTitle : ko.computed
 		deferEvaluation : true
 		read : =>
 			unread = vm.unreadItemsCount()
 			if unread
-				return "(#{unread})"
-			return "clear"
+				return "LME (#{unread})"
+			return "LME"
 
 	phpCode : ko.observable('')
 
 	codeShown : ko.observable(no)
+
+	filter : new Filter
 
 	onGetCodeClick : ()->
 		vm.codeShown yes
@@ -34,7 +33,7 @@ vm =
 
 
 	onClearClick : ()->
-		vm.logItems []
+		vm.log.items []
 		vm.currentItem null
 
 	onRowClick : (item)->
@@ -42,9 +41,6 @@ vm =
 			vm.currentItem null
 		else
 			vm.currentItem item
-
-	onEnableNotificationsClick : ->
-		notify.enable()
 
 ko.applyBindings vm
 
@@ -63,9 +59,8 @@ eval('?>'.file_get_contents(LME_BACKEND.'/LME.php'));
 
 socket = io.connect '/'
 socket.on 'log', (data)->
-	vm.logItems.unshift (new LogItem).populate(data)
+	vm.log.items.unshift (new LogItem).populate(data)
 	vm.unreadItemsCount 1 + vm.unreadItemsCount()
-	notify data.type, data.message unless isVisible
 
 #################
 isVisible = yes

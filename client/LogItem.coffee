@@ -19,7 +19,7 @@ module.exports = class LogItem
 		@isStrict = ko.computed =>
 			@type().match /strict/i
 		@isError = ko.computed =>
-			not @isWarning() and not @isNotice() and not @isStrict()
+			not @isWarning() and not @isNotice() and not @isStrict() and not @isLog()
 
 	populate : (data)->
 		for own key, value of data
