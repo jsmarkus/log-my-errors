@@ -90,13 +90,13 @@ class LME {
                 continue;
             }
 
-            array_walk($v['args'], array('LME', 'safeToString'));
+            $args = array_map(array('LME', 'safeToString'), $v['args']);
 
             $trace .= '#' . ($k - $ignore) . ' ' . $v['file'] .
                 '(' . $v['line'] . '): ' .
                 (isset($v['class']) ? $v['class'] . '->' : '') .
                 $v['function'] .
-                '(' .implode(', ', $v['args']) . ')' . "\n";
+                '(' .implode(', ', $args) . ')' . "\n";
         }
 
         return $trace;
