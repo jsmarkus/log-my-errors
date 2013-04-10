@@ -1,6 +1,6 @@
 {
   "name": "log-my-errors",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "bin": {
     "lme": "app.js"
   },
@@ -16,6 +16,6 @@
     "jade": "0.27.7",
     "browserify": "1.16.4",
     "knockoutify": "2.2.0",
-    "socket.io": "0.9.11"
+    "socket.io": "0.9.13"
   }
 }
