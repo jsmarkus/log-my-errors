@@ -50,7 +50,6 @@ io = socket_io.listen(server);
 
 io.enable('browser client minification');
 io.enable('browser client etag'        );
-io.enable('browser client gzip'        );
 io.set   ('log level', 0               );
 
 io.sockets.on('connection', function (client) {
