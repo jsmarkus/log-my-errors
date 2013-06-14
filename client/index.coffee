@@ -35,6 +35,7 @@ vm =
 	onClearClick : ()->
 		vm.log.items []
 		vm.currentItem null
+		vm.unreadItemsCount 0
 
 	onRowClick : (item)->
 		if vm.currentItem() is item
